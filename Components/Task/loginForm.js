@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash'
 import React, { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Dimensions, ImageBackground,  Text, View } from 'react-native'
 import { Button, Input, Icon } from 'react-native-elements'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useNavigation } from '@react-navigation/native'
@@ -8,6 +8,8 @@ import { useNavigation } from '@react-navigation/native'
 import { loginWithEmailAndPassword } from '../../Utils/actions'
 import { validateEmail } from '../../Utils/helpers'
 import Loading from '../Loading'
+
+const {width, height} = Dimensions.get("window")
 
 export default function LoginForm() {
 
@@ -60,17 +62,28 @@ export default function LoginForm() {
     }
 
     return (
+        <ImageBackground
+            source = {require("../../assets/652753.png")}
+            style = {styles.img}
+            resizeMode = "cover"
+        >
         <KeyboardAwareScrollView contentContainerStyle = {styles.view}>
-            <View>
+            <View style = {styles.input}>
                 <Input
-                    placeholder = "Ingresar Correo..."
+                    containerStyle = {styles.container}
+                    inputContainerStyle = {styles.containerInput}
+                    placeholder = "Ingresa Correo..."
                     defaultValue = {formData.email}
                     errorMessage = {errorEmail}
                     keyboardType = "email-address"
                     onChange = {(e) => onChange(e, "email")}
                 />
+            </View>
+            <View style = {styles.input}>
                 <Input
-                    placeholder = "Ingresar Contraseña..."
+                    containerStyle = {styles.container}
+                    inputContainerStyle = {styles.containerInput}
+                    placeholder = "Ingresa Contraseña..."
                     defaultValue = {formData.password}
                     errorMessage = {errorPassword}
                     password = {true}
@@ -82,17 +95,27 @@ export default function LoginForm() {
                             name = { showPassword ? "eye-off-outline" : "eye-outline" }
                             size = {22}
                             onPress = {() => setShowPassword(!showPassword)}
+                            color = "#000"
                         />
                     }
                 />
+            </View>
                 <Button
-                    title = "Iniciar Sesión"
+                    title = "  Iniciar Sesión"
                     onPress = {onLogin}
-                    buttonStyle = {{ backgroundColor: "#073a9a", borderRadius: 5 }}
+                    buttonStyle = {{ backgroundColor: "#073a9a", borderRadius: 5, marginVertical: 20 }}
+                    titleStyle = {{ fontSize: 18 }}
+                    icon = {
+                        <Icon
+                        type = "material-community"
+                        name = "login"
+                        color = "#fff"
+                        />
+                    }
                 />
                 <Loading isVisible = {loading} text = "Iniciando Sesión..."/>
-            </View>
         </KeyboardAwareScrollView>
+        </ImageBackground>
     )
 }
 
@@ -111,5 +134,33 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         width: "90%",
         alignSelf: "center"
+    },
+    img:{
+        width: width,
+        height: "100%"
+    },
+    input:{
+        marginTop: 10,
+        borderLeftWidth: 1,
+        borderRightWidth: 3,
+        borderTopWidth: 1,
+        borderBottomWidth: 3,
+        width: "95%",
+        borderRadius: 25,
+        borderColor: "#C3C3C3",
+        backgroundColor: "white",
+        opacity: 0.8,
+        alignItems: "center",
+        justifyContent: "center",
+        alignSelf: "center"
+    },
+    containerInput:{
+        borderBottomWidth: 0
+    },
+    container:{
+        marginHorizontal: 30,
+        width:"95%",
+        alignSelf: "center"
+        
     }
 })

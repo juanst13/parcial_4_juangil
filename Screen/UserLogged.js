@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { Dimensions, ImageBackground ,StyleSheet, Text, View } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import { getCurrentUser, getTasks } from '../Utils/actions'
 import { Icon } from 'react-native-elements/dist/icons/Icon'
@@ -8,6 +8,8 @@ import Toast from 'react-native-easy-toast'
 import { TouchableOpacity } from 'react-native'
 
 import Loading from '../Components/Loading'
+
+const {width,height} = Dimensions.get("window")
 
 export default function UserLogged({ navigation }) {
     const toastRef = useRef()
@@ -35,38 +37,44 @@ export default function UserLogged({ navigation }) {
     }
 
     return (
-        <View style = {styles.view}>
-            <Text style = {styles.title}>Bienvenido: {user.email}</Text>
-            {
-                tasks ? (
-                    <FlatList
-                        data = {tasks}
-                        keyExtractor = {(item, index) => index.toString()}
-                        renderItem = {(task) => (
-                            <Task
-                                task = {task}
-                                setLoading = {setLoading}
-                                toastRef = {toastRef}
-                                navigation = {navigation}
-                            />
-                        )}
-                    />
-                ) : (
-                    <Loading isVisible = {true} text = "Cargando Tareas..."/>
-                )
-            }
-            
-            <Icon
-                type="material-community"
-                name="plus"
-                color="#442484"
-                size = {25}
-                reverseColor = "white"
-                reverse
-                containerStyle={styles.btnContainer}
-                onPress={() => navigation.navigate("add-task")}
-            />
-        </View>
+        <ImageBackground
+            source = {require("../assets/652753.png")}
+            style = {styles.img}
+            resizeMode = "cover"
+        >
+            <View style = {styles.view}>
+                <Text style = {styles.title}>Bienvenido: {user.email}</Text>
+                {
+                    tasks ? (
+                        <FlatList
+                            data = {tasks}
+                            keyExtractor = {(item, index) => index.toString()}
+                            renderItem = {(task) => (
+                                <Task
+                                    task = {task}
+                                    setLoading = {setLoading}
+                                    toastRef = {toastRef}
+                                    navigation = {navigation}
+                                />
+                            )}
+                        />
+                    ) : (
+                        <Loading isVisible = {true} text = "Cargando Tareas..."/>
+                    )
+                }
+                
+                <Icon
+                    type="material-community"
+                    name="plus"
+                    color="#073a9a"
+                    size = {25}
+                    reverseColor = "white"
+                    reverse
+                    containerStyle={styles.btnContainer}
+                    onPress={() => navigation.navigate("add-task")}
+                />
+            </View>
+        </ImageBackground>
     )
 }
 
@@ -82,8 +90,9 @@ function Task({ task, navigation, setLoading, toastRef }) {
                     <Icon
                         type = "material-community"
                         name = "playlist-star"
-                        style = {{ marginHorizontal: 3 }}
-                        iconStyle = {{ color: "#9c9c9c" }}
+                        style = {{ marginHorizontal: 10 }}
+                        iconStyle = {{ color: "#073a9a" }}
+                        size = {30}
                     />
                     <Text style = {styles.content}>{name}</Text>
                 </View>
@@ -94,29 +103,33 @@ function Task({ task, navigation, setLoading, toastRef }) {
 
 function NotFoundTask({ navigation }) {
     return(
-        <View style = {{ flex:1, alignItems: "center", justifyContent: "center"}}>
-            <Icon type = "material-community" name = "alert-outline" size = {50} color= "#000"/>
-            <Text style = {{ fontSize: 20, fontWeight: "bold", color: "#000" }}>
-                    Aún no tienes tareas
-            </Text>
-            <Icon
-                type="material-community"
-                name="plus"
-                color="#442484"
-                size = {25}
-                reverseColor = "white"
-                reverse
-                containerStyle={styles.btnContainer}
-                onPress={() => navigation.navigate("add-task")}
-            />
-        </View>
+        <ImageBackground
+            source = {require("../assets/652753.png")}
+            style = {styles.img}
+            resizeMode = "cover"
+        >
+            <View style = {{ flex:1, alignItems: "center", justifyContent: "center"}}>
+                <Text style = {{ fontSize: 20, fontWeight: "bold", color: "#FFF" }}>
+                        Aún no tienes tareas.
+                </Text>
+                <Icon
+                    type="material-community"
+                    name="plus"
+                    color="#073a9a"
+                    size = {25}
+                    reverseColor = "white"
+                    reverse
+                    containerStyle={styles.btnContainer}
+                    onPress={() => navigation.navigate("add-task")}
+                />
+            </View>
+        </ImageBackground>
     )
 }
 
 const styles = StyleSheet.create({
     view:{
-        flex: 1,
-        backgroundColor: "#e1e1e1"
+        flex: 1
     },
     btnContainer:{
         position: "absolute",
@@ -127,7 +140,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 18,
         textAlign: "center",
-        marginVertical: 15
+        marginVertical: 15,
+        color: "#fff"
     },
     item:{
         marginTop: 10,
@@ -145,8 +159,13 @@ const styles = StyleSheet.create({
     },
     list:{
         flexDirection: "row",
-        marginHorizontal: 10
+        marginHorizontal: 10,
+        alignItems: "center"
     },
+    img:{
+        width: width,
+        height: "100%"
+    }
 
 
 })

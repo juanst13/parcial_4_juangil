@@ -1,7 +1,8 @@
 import { isEmpty } from 'lodash'
 import React, { useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { Button, Input } from 'react-native-elements'
+import { StyleSheet, ImageBackground, Text, View } from 'react-native'
+import { Button, Icon, Input } from 'react-native-elements'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 import { addDocumentWithOutId, getCurrentUser } from '../../Utils/actions'
 
@@ -45,18 +46,54 @@ export default function AddTaskForm({ navigation, setLoading, toastRef }) {
 
     return (
         <View>
-            <Input
-                placeholder = "Ingresa nombre de tarea"
-                defaultValue = {task}
-                errorMessage = {errorTask}
-                onChange = {(e) => setTask(e.nativeEvent.text)}
-            />
+            <View style = {styles.input}>
+                <Input
+                    containerStyle = {styles.container}
+                    inputContainerStyle = {styles.containerInput}
+                    placeholder = "Ingresar Tarea"
+                    defaultValue = {task}
+                    errorMessage = {errorTask}
+                    onChange = {(e) => setTask(e.nativeEvent.text)}
+                />
+            </View>
             <Button
-                title = "Adicionar tarea"
+                title = "   Adicionar Tarea"
                 onPress = {AddTask}
+                buttonStyle = {{ backgroundColor: "#073a9a", borderRadius: 5 }}
+                icon = {
+                    <Icon
+                    type = "material-community"
+                    name = "plus-box"
+                    color = "#fff"
+                    />
+                }
             />
         </View>
     )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    input:{
+        marginVertical: 20,
+        borderLeftWidth: 1,
+        borderRightWidth: 3,
+        borderTopWidth: 1,
+        borderBottomWidth: 3,
+        width: "95%",
+        borderRadius: 25,
+        borderColor: "#C3C3C3",
+        backgroundColor: "white",
+        opacity: 0.8,
+        alignItems: "center",
+        justifyContent: "center",
+        alignSelf: "center"
+    },
+    containerInput:{
+        borderBottomWidth: 0
+    },
+    container:{
+        marginHorizontal: 30,
+        width:"95%",
+        alignSelf: "center"
+    }
+})
