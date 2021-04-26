@@ -55,6 +55,7 @@ export default function LoginForm() {
 
         if(isEmpty(formData.password)){
             setErrorPassword("Debes ingresar tu contraseña.")
+            isValid = false
         }
 
         return isValid
